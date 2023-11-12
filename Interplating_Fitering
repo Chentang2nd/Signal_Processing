@@ -1,0 +1,25 @@
+% Here is an example code snippet that demonstrates these steps:```matlab
+% Define digital signal
+digital_signal = [1 0 1 1 0 1 0];% Define sampling rate
+fs = 44100;% Create time vector
+t = linspace(0, length(digital_signal)/fs, length(digital_signal));% Plot digital signal
+stem(t, digital_signal);
+xlabel('Time (s)');
+ylabel('Amplitude');
+title('Digital Signal');% Interpolate signal
+t_interp = linspace(0, length(digital_signal)/fs, length(digital_signal)*10);
+digital_interp = interp1(t, digital_signal, t_interp, 'nearest');% Plot interpolated signal
+figure;
+plot(t_interp, digital_interp);
+xlabel('Time (s)');
+ylabel('Amplitude');
+title('Interpolated Signal');% Apply low-pass filter
+fc = 4000;
+[b, a] = butter(4, fc/(fs/2));
+analog_signal = filter(b, a, digital_interp);% Plot filtered signal
+figure;
+plot(t_interp, analog_signal);
+xlabel('Time (s)');
+ylabel('Amplitude');
+title('Filtered Signal');% Write filtered signal to audio file
+audiowrite('output.wav', analog_signal, fs);
